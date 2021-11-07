@@ -200,7 +200,6 @@ const playerStats = (playerName) => {
         for (const playerKey in playerObj) {
 
             if (playerKey === playerName) {
-                debugger;
                 return playerObj[playerKey];
             }
         }
@@ -209,19 +208,52 @@ const playerStats = (playerName) => {
 
 const bigShoeRebounds = () => {
     const game = gameObject();
-    let shoeSize = 0;
+    
+    for (let shoeSize = 30; shoeSize > 0; shoeSize --){
+
+        for (const gameKey in game) {
+            const playerObj = game[gameKey].players;
+
+            for (const playerKey in playerObj) {
+
+                if (playerObj[playerKey].shoe === shoeSize) {
+
+                    return playerObj[playerKey].number;
+                }
+            }
+        }
+    }
+}
+
+const mostPointsScored = () => {
+    const game = gameObject();
+    let points = [];
 
     for (const gameKey in game) {
         const playerObj = game[gameKey].players;
 
         for (const playerKey in playerObj) {
-
-            if (playerObj[playerKey].shoe > shoeSize) {
-                shoeSize = playerObj[playerKey].shoe;
-            }
+            points.push(playerObj[playerKey].points);
         }
     }
 
-    return shoeSize;
+    const highestPoints = points.reduce( (accumulator, number) => {
+        if (number > accumulator) {
+            accumulator = number;
+        }
+    });
+    debugger;
+
+    for (const gameKey in game) {
+        const playerObj = game[gameKey].players;
+
+        for (const playerKey in playerObj) {
+            
+            if (playerObj[playerKey].points === highestPoints) {
+                return playerKey;
+            }
+        }
+    }
 }
 
+console.log(mostPointsScored());
